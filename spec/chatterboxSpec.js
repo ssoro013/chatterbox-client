@@ -14,7 +14,7 @@ describe('chatterbox', function() {
 
     describe('creating', function() {
       it('should submit a POST request via $.ajax', function(done) {
-        Parse.create({});
+        Parse.create({});//saves a message to the server;
         expect($.ajax.calledOnce).to.be.true;
         // sinon.spy method `args` comes in the form [function calls][arguments from that call]
         ajaxOptions = typeof $.ajax.args[0][0] === 'object' ? $.ajax.args[0][0] : $.ajax.args[0][1];
