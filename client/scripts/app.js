@@ -19,15 +19,16 @@ var App = {
 
   fetch: function(callback = ()=>{}) {
     Parse.readAll((data) => {
-      // examine the response from the server request:
-      // renderMesssage(data);
-      // for (var i )
-      // messagesRetrieved.push(data)
-      // console.log(JSON.parse(data))
-      // for (var i=0; i<data.results.length; i++){
-      //   renderMessage(JSON.parse(data.results[i]))
-      // }
-      // callback();
+      //gets information from the server
+      //examine the response from the server request:
+      //data.results is the array of all messages
+      //use MessageView.renderMessage function to append each message to the chats
+
+      var messages = data.results;
+      console.log(messages)
+      for (var i=0; i<messages.length; i++){
+        MessagesView.renderMessage(messages[i])
+      }
     });
   },
 
