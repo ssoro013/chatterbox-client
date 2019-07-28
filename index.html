@@ -27,14 +27,19 @@
       <div class="spinner"><img src="client/images/spiffygif_46x46.gif"></div>
       <div id="rooms">
         Room:
-        <select></select>
-        <button>Add Room</button>
+        <select>
+        </select>
+        <input type="text" name="room" id="roomText"/>
+        <button id="addRoom">Add Room</button>
+        <button id="enterRoom">Enter Room</button>
+        <button value="Refresh Page" onClick="window.location.reload();">Refresh</button>
       </div>
       <form action="#" id="send" method="post">
         <input type="text" name="message" id="message"/>
-        <input type="submit" name="submit" class="submit"/>
+        <button class="submit">Submit</button>
       </form>
     </div>
+
     <div id="chats"></div>
     <script src="client/env/config.js"></script>
     <script src="client/scripts/parse.js"></script>
@@ -48,6 +53,64 @@
     <script src="client/scripts/app.js"></script>
     <script>
       $(() => App.initialize());
+      $(document).ready(function() {
+        $('.submit').click(function(){
+          //to get message: $('#message').val()
+          var text = $('#message').val();
+          var username = window.location.search.slice(10)
+          var roomname = $('select option:selected').text();
+          var messageObject = {username: username, text: text, roomname: roomname }
+          Parse.create(messageObject, function() {MessagesView.renderMessage(messageObject)})
+          //invoke Parse.create with
+          //message
+          //successCB
+          //default error callback
+        })
+          //add rooms to the dropdown list
+          //iterate through the result array
+          //find all the roomnames
+          //create an array to store all the roomnames
+          //use unique
+
+        var allRoomNames = [];
+        Parse.readAll((data) => {
+          for (var i = 0; i < data.results.length; i++) {
+            if (!allRoomNames.includes(data.results[i].roomname)) {
+              if (data.results[i].roomname) {
+                allRoomNames.push(data.results[i].roomname);
+              }
+            }
+          }
+          for (var i=0; i<allRoomNames.length; i++){
+            $('select').append(`<option value='room'>${allRoomNames[i]}</option>`)
+          }
+        });
+
+        $("#addRoom").click(function(){
+            var newRoomName = $('#roomText').val();
+            $('select').append(`<option value='room'>${newRoomName}</option>`)
+        })
+
+        $("#enterRoom").click(function(){
+          var roomToEnter = $('select option:selected').text()
+          // console.log(roomToEnter)
+          // $("#chats").filter(function(index,element){
+          //   console.log(this.childNodes[index+1].id)
+          //   this.childNodes[index].id === roomToEnter;
+          // })
+          console.log($("#chats").childNodes)
+          // var children = $("#chats").childNodes
+          // $("#chats").html("");
+          // for (var i = 0; i < children.length; i++) {
+          //   if (children[i].id === roomToEnter) {
+          //     $("#chats").prepend(children[i]);
+          //   }
+          // }
+        })
+        //create event listener on the enter room button
+        // create variable to store room name we want to enter
+        // filter chat to only include chats in that room
+      });
     </script>
   </body>
 </html>

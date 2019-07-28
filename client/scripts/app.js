@@ -23,10 +23,10 @@ var App = {
       //examine the response from the server request:
       //data.results is the array of all messages
       //use MessageView.renderMessage function to append each message to the chats
-
+      console.log(data);
       var messages = data.results;
-      console.log(messages)
-      for (var i=0; i<messages.length; i++){
+      // console.log(messages)
+      for (var i=messages.length - 1; i>=0; i--){
         MessagesView.renderMessage(messages[i])
       }
     });

@@ -14,15 +14,21 @@ var MessagesView = {
     //message is an object with properties username, text, roomname
     //render is a function that adds messages to the index.html node div with id="chats"
     //this function essentially appends message to #chats node
+
+    //in template, use <%- instead of <%= to avoid hackers :)
+
+    message.roomname = message.roomname || null;
+    message.text = message.text || null;
+    message.username = message.username || null;
     var templateMessage=_.template(
-      "<div>"+
-        "<div><b><%= username %>:</b></div>"+
-        "<div><%= text %></div>"+
-        "<div><%= roomname %></div>"+
+      "<div class='chat' id='<%- roomname %>'>"+
+        "<div class='username'><%- username %>:</div>"+
+        "<div ><%- text %></div>"+
+        "<div><%- roomname %></div>"+
       "</div"
     );
     var html = templateMessage(message);
-    this.$chats.append(html);
+    this.$chats.prepend(html);
   }
 
 };
